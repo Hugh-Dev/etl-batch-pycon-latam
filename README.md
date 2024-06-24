@@ -89,6 +89,6 @@ Supongamos que tenemos un layout para un archivo CSV que contiene información d
 
 Este layout especifica que el archivo CSV debe contener seis campos con tipos de datos específicos, longitudes y una indicación de si cada campo es requerido u opcional. También proporciona descripciones para ayudar a los usuarios a comprender qué información se espera en cada campo.
 
-### Mapa de layouts
+### Tipos de fuentes de datos
 
 <img src="etl_batch_pycon_latam\img\mapa.png" alt="Texto alternativo" title="Título opcional" width="504" height="283" />

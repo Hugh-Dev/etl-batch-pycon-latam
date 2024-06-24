@@ -16,6 +16,7 @@ sys.path.append('etl_batch_pycon_latam')
 
 from etl_batch_modules.extract_module.extract import *
 from etl_batch_modules.transform_module.transform import *
+from etl_batch_modules.load_module.load import *
 from config.settings import API_KEY, N_REQUEST
 from utilities.utils import timer, dataframe_a_prettytable
 
@@ -84,8 +85,6 @@ def main():
 
         print('\n')
 
-        print(openweathermap.dtypes)
-
         banner = """
 
           ,---- [ Module ]
@@ -95,17 +94,20 @@ def main():
         """
         print(banner)
 
-        # Load api rest
+        # Load api rest data
+        load_api = loadFromDatasetApi()
+        load_api.load_data(data_response)
+        print('successful load api data...✅')
 
-        # Load CSV
+        # Load CSV data
+        load_csv = loadFromDatasetCsv()
+        load_csv.load_data(global_temperatures)
+        print('successful load csv data...✅')
 
-        # Load DB 
-
-
-
-
-        
-
+        # Load DB data
+        load_db = loadFromDatasetDb()
+        load_db.load_data(openweathermap)
+        print('successful load db data...✅')
 
         
     except Exception as e:

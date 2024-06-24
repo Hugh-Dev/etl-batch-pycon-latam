@@ -1,0 +1,29 @@
+# compiled output
+__pycache__/
+
+# Compiled Python bytecode
+*.py[cod]
+
+# Log files
+#*.log
+
+# JetBrains IDE
+*/.idea/
+*/.vsc/
+*/.vscode/
+*.vscode/
+.vscode
+**/.vscode
+**/dist
+**/dist/**
+**/node_modules
+**/node_modules/**
+
+# Environments
+**/*.env
+**/*.venv
+
+# Paths and files
+**/tmp/**
+**.csv
+**zip**

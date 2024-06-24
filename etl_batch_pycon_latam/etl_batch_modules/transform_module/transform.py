@@ -13,8 +13,8 @@
 import sys
 sys.path.append('etl_batch_pycon_latam')
 
-from utilities.libs import pd
-from utilities.utils import kelvin_a_celsius
+from utilities.libs import pd, Polygon, gpd, wkt, json
+from utilities.utils import kelvin_a_celsius, create_polygon_from_coords, round_polygon, safe_wkt_load
 
 
 class TransformToApi:
@@ -51,7 +51,13 @@ class TransformToApi:
             response = (
                 df_weather
                 .filter(['name', 'lat', 'lon', 'sys_country'])
+                .astype({
+                    'name': 'str',
+                    'sys_country': 'str'
+
+                })
             )
+       
 
             return response
         
@@ -64,20 +70,19 @@ class TransformToCsv:
         pass
 
     def transform_data(self, dataframe) -> pd.DataFrame:
-        self.dataframe = dataframe
 
-        self.dataframe['celsius_temp_min'] = pd.to_numeric(self.dataframe['celsius_temp_min'], errors='coerce')
-        self.dataframe['celsius_temp_max'] = pd.to_numeric(self.dataframe['celsius_temp_max'], errors='coerce')
+        dataframe['celsius_temp_min'] = pd.to_numeric(dataframe['celsius_temp_min'], errors='coerce')
+        dataframe['celsius_temp_max'] = pd.to_numeric(dataframe['celsius_temp_max'], errors='coerce')
 
-        self.response = self.dataframe.groupby('sys_country').agg(
+        response = dataframe.groupby('sys_country').agg(
             temp_min_promedio=('celsius_temp_min', 'mean'),
             temp_max_promedio=('celsius_temp_max', 'mean')
         ).reset_index()
 
-        self.response['temp_min_promedio'] = self.response['temp_min_promedio'].round(2)
-        self.response['temp_max_promedio'] = self.response['temp_max_promedio'].round(2)
+        response['temp_min_promedio'] = response['temp_min_promedio'].round(2)
+        response['temp_max_promedio'] = response['temp_max_promedio'].round(2)
 
-        return self.response
+        return response
 
 class TransformToDb:
 
@@ -85,13 +90,29 @@ class TransformToDb:
         pass
 
     def transform_data(self, dataframe) -> pd.DataFrame:
-        self.dataframe = dataframe
 
-        # response = (
-        #     self.dataframe
-        #     .filter([
+        dataframe = dataframe[dataframe['name'] != '']
 
-        #     ])
-        # )
+        dataframe = (
+            dataframe
+            .filter([
+                'name',
+                'sys_country',
+                'lat',
+                'lon'
+            ])
+            .rename(columns={
+                'lat':'latitude',
+                'lon':'longitude'
+            })
+        )
+        dataframe[['latitude', 'longitude']] = dataframe[['latitude', 'longitude']].round(2)
+        dataframe['polygon'] = dataframe.apply(lambda row: create_polygon_from_coords(row['longitude'], row['latitude']), axis=1)
+        dataframe['polygon'] = dataframe['polygon'].apply(safe_wkt_load)
+        dataframe['polygon'] = dataframe['polygon'].astype(str)
+
+        # dataframe['polygon'] = dataframe['polygon'].apply(lambda x: json.dumps(x) if not pd.isnull(x) else None)
+        # gdf = gpd.GeoDataFrame(dataframe, geometry='polygon')
+        # geojson_data = gdf.to_json()
         
-        return self.dataframe
+        return dataframe
