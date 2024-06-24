@@ -6,7 +6,7 @@
 # ░░▀░░▀░▀░▀░▀░▀░▀░▀▀▀░▀░░░▀▀▀░▀░▀░▀░▀░░░▀░▀░▀▀▀░▀▀░░▀▀▀░▀▀▀░▀▀▀ ©2024 Pycon Latam
 # """
 # @namespace 
-# Contains 
+# Contains This module contains classes for transforming weather data for different purposes such as API responses, CSV files, and database storage.
 # @author Hugo Ramirez (hughpythoneer as X)
 # Pycon Latam 2024 - Mexico
 
@@ -19,12 +19,41 @@ from utilities.utils import kelvin_a_celsius, create_polygon_from_coords, round_
 
 class TransformToApi:
 
+    """
+    Class to transform weather data for API response.
+    
+    Methods:
+    - transform_data(weather_data): Transforms weather data into a structured format for API response.
+    
+    Attributes:
+    - lat (float): Latitude coordinate.
+    - lon (float): Longitude coordinate.
+    """
+
     def __init__(self, lat, lon) -> None:
+        """
+        Initializes the TransformToApi instance with latitude and longitude.
+        
+        Args:
+            lat (float): Latitude coordinate.
+            lon (float): Longitude coordinate.
+        """
         self.lat = lat
         self.lon = lon
 
     def transform_data(self, weather_data) -> list:
-
+        """
+        Transforms weather data into a structured format for API response.
+        
+        Args:
+            weather_data (list): Raw weather data.
+        
+        Returns:
+            list: Transformed weather data.
+        
+        Raises:
+            Exception: If an error occurs during data transformation.
+        """
         try:
             df_weather = pd.DataFrame(weather_data)
             coord_df = pd.json_normalize(df_weather['coord'].apply(pd.Series)).add_prefix('coord_')
@@ -58,7 +87,6 @@ class TransformToApi:
                 })
             )
        
-
             return response
         
         except Exception as e:
@@ -66,11 +94,29 @@ class TransformToApi:
 
 class TransformToCsv:
 
+    """
+    Class to transform weather data for CSV output.
+    
+    Methods:
+    - transform_data(dataframe): Transforms weather data into a format suitable for CSV output.
+    """
+
     def __init__(self) -> None:
+        """
+        Initializes the TransformToCsv instance.
+        """
         pass
 
     def transform_data(self, dataframe) -> pd.DataFrame:
-
+        """
+        Transforms weather data into a format suitable for CSV output.
+        
+        Args:
+            dataframe (pd.DataFrame): DataFrame containing the weather data.
+        
+        Returns:
+            pd.DataFrame: Transformed DataFrame suitable for CSV output.
+        """
         dataframe['celsius_temp_min'] = pd.to_numeric(dataframe['celsius_temp_min'], errors='coerce')
         dataframe['celsius_temp_max'] = pd.to_numeric(dataframe['celsius_temp_max'], errors='coerce')
 
@@ -85,12 +131,29 @@ class TransformToCsv:
         return response
 
 class TransformToDb:
+    """
+    Class to transform weather data for database storage.
+    
+    Methods:
+    - transform_data(dataframe): Transforms weather data into a format suitable for database storage.
+    """
 
     def __init__(self) -> None:
+        """
+        Initializes the TransformToDb instance.
+        """
         pass
 
     def transform_data(self, dataframe) -> pd.DataFrame:
-
+        """
+        Transforms weather data into a format suitable for database storage.
+        
+        Args:
+            dataframe (pd.DataFrame): DataFrame containing the weather data.
+        
+        Returns:
+            pd.DataFrame: Transformed DataFrame suitable for database storage.
+        """
         dataframe = dataframe[dataframe['name'] != '']
 
         dataframe = (
@@ -110,9 +173,5 @@ class TransformToDb:
         dataframe['polygon'] = dataframe.apply(lambda row: create_polygon_from_coords(row['longitude'], row['latitude']), axis=1)
         dataframe['polygon'] = dataframe['polygon'].apply(safe_wkt_load)
         dataframe['polygon'] = dataframe['polygon'].astype(str)
-
-        # dataframe['polygon'] = dataframe['polygon'].apply(lambda x: json.dumps(x) if not pd.isnull(x) else None)
-        # gdf = gpd.GeoDataFrame(dataframe, geometry='polygon')
-        # geojson_data = gdf.to_json()
         
         return dataframe

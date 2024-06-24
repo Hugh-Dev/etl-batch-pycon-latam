@@ -80,6 +80,7 @@ def main():
         # To Data Base
         transformation_db = TransformToDb()
         openweathermap = transformation_db.transform_data(openweathermap)
+        print('Openweathermap polygon: 📦')
         prettytable_openweathermap = dataframe_a_prettytable(openweathermap, 5)
         print(prettytable_openweathermap)
 
@@ -109,6 +110,7 @@ def main():
         load_db.load_data(openweathermap)
         print('successful load db data...✅')
 
+        print('\n')
         
     except Exception as e:
         raise Exception("log", e)
