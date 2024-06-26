@@ -13,7 +13,7 @@
 import sys
 sys.path.append('etl_batch_pycon_latam')
 
-from utilities.libs import pd, Polygon, gpd, wkt, json
+from utilities.libs import pd, Polygon, wkt, json
 from utilities.utils import kelvin_a_celsius, create_polygon_from_coords, round_polygon, safe_wkt_load
 
 
@@ -94,41 +94,38 @@ class TransformToApi:
 
 class TransformToCsv:
 
-    """
-    Class to transform weather data for CSV output.
-    
-    Methods:
-    - transform_data(dataframe): Transforms weather data into a format suitable for CSV output.
-    """
-
     def __init__(self) -> None:
-        """
-        Initializes the TransformToCsv instance.
-        """
-        pass
+        layout_to_transformation = pd.read_csv('./layouts/layout_to_transformation.csv')
+        self.cluster = layout_to_transformation['clustering'].iloc[:0]
+        self.filter = layout_to_transformation['filter'][0].astype(int)
+        self.cast = layout_to_transformation['casting'][0]
+        self.type = layout_to_transformation['type'][0]
+
 
     def transform_data(self, dataframe) -> pd.DataFrame:
-        """
-        Transforms weather data into a format suitable for CSV output.
-        
-        Args:
-            dataframe (pd.DataFrame): DataFrame containing the weather data.
-        
-        Returns:
-            pd.DataFrame: Transformed DataFrame suitable for CSV output.
-        """
-        dataframe['celsius_temp_min'] = pd.to_numeric(dataframe['celsius_temp_min'], errors='coerce')
-        dataframe['celsius_temp_max'] = pd.to_numeric(dataframe['celsius_temp_max'], errors='coerce')
 
-        response = dataframe.groupby('sys_country').agg(
-            temp_min_promedio=('celsius_temp_min', 'mean'),
-            temp_max_promedio=('celsius_temp_max', 'mean')
-        ).reset_index()
+        dataframe['Subscription Date'] = pd.to_datetime(dataframe['Subscription Date'])
+        dataframe['Year'] = dataframe['Subscription Date'].dt.year
+        dataframe['Month'] = dataframe['Subscription Date'].dt.month
 
-        response['temp_min_promedio'] = response['temp_min_promedio'].round(2)
-        response['temp_max_promedio'] = response['temp_max_promedio'].round(2)
+        dataframe_filtered = dataframe[dataframe['Year'] == self.filter]
 
-        return response
+        print(dataframe_filtered)
+
+
+
+        # dataframe['celsius_temp_min'] = pd.to_numeric(dataframe['celsius_temp_min'], errors='coerce')
+        # dataframe['celsius_temp_max'] = pd.to_numeric(dataframe['celsius_temp_max'], errors='coerce')
+
+        # response = dataframe.groupby('sys_country').agg(
+        #     temp_min_promedio=('celsius_temp_min', 'mean'),
+        #     temp_max_promedio=('celsius_temp_max', 'mean')
+        # ).reset_index()
+
+        # response['temp_min_promedio'] = response['temp_min_promedio'].round(2)
+        # response['temp_max_promedio'] = response['temp_max_promedio'].round(2)
+
+        return dataframe_filtered
 
 class TransformToDb:
     """
@@ -175,3 +172,4 @@ class TransformToDb:
         dataframe['polygon'] = dataframe['polygon'].astype(str)
         
         return dataframe
+    

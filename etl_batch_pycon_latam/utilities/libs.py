@@ -7,7 +7,7 @@
 from decouple import config
 from prettytable import PrettyTable
 from shapely.geometry import Polygon
-import geopandas as gpd
+# import geopandas as gpd
 from shapely import wkt
 import json
 import sqlite3

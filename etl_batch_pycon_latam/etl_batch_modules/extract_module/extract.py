@@ -36,16 +36,39 @@ class ExtractFromApi:
         return weather_data
     
 class ExtractFromCsv:
+    """
+    A class to extract data from a CSV file.
 
+    Attributes:
+    -----------
+    path : str
+        The file path to the CSV file containing customer data.
+    to_extraction : DataFrame
+        A pandas DataFrame loaded from a layout CSV file specifying which columns and volumen to extract.
+
+    Methods:
+    --------
+    __init__(self) -> None:
+        Initializes the ExtractFromCsv class by setting the path to the customers CSV file,
+        loading the layout for extraction from another CSV file, extracting the column names
+        and the volume of data to be extracted.
+
+    extract_data(self):
+        Extracts data from the CSV file specified by the path attribute, using the columns
+        and volume specified. Returns a pandas DataFrame containing the extracted data.
+        If the file does not exist, it returns None.
+    """
     def __init__(self) -> None:
-        self.path = './tmp/layout_global_temperatures.csv'
+        self.path = './tmp/customers.csv'
+        to_extraction = pd.read_csv('./layouts/layout_to_extraction.csv')
+        self.columns = to_extraction['columns'].to_list()
+        self.volumen = to_extraction[to_extraction['volumen'].notna()]['volumen'].astype(int)[0]
+
         
     def extract_data(self):
-
         if os.path.isfile(self.path):
-            global_temperatures = pd.read_csv(f'{self.path}', index_col=False, low_memory=True)
-
-        return global_temperatures
+            costumers = pd.read_csv(f'{self.path}', usecols=self.columns, nrows=self.volumen, index_col=False, low_memory=True)
+        return costumers
 
 class ExtractFromDB:
 

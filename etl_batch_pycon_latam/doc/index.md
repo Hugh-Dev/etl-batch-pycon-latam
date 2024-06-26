@@ -1,24 +1,4 @@
-<!-- # etl-batch-pycon-latam -->
-
-# *Título: Python y los Esquemas ETL: El Pivote Esencial para la Inteligencia Artificial*
-
-## *© Pycon Latam 2024*
-
-[Conceptos básicos](etl_batch_pycon_latam/doc/context.md)
-
-[Contenido de la charla](etl_batch_pycon_latam/doc/docs.md)
-
-## **Requerimientos para la demo**
-
-[![pypi](https://pypi.org/static/images/logo-small.8998e9d1.svg)](https://pypi.org)
-| | |
-| --- | --- |
-| Pandas | [![Pandas Latest Release](https://img.shields.io/pypi/v/pandas.svg)](https://pypi.org/project/pandas/) [![PyPI Downloads](https://img.shields.io/pypi/dm/pandas.svg?label=PyPI%20downloads)](https://pypi.org/project/pandas/) [![Conda Latest Release](https://anaconda.org/conda-forge/pandas/badges/version.svg)](https://anaconda.org/conda-forge/pandas) [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/pandas.svg?label=Conda%20downloads)](https://anaconda.org/conda-forge/pandas) |
-| numpy | [![Numpy Latest Release](https://img.shields.io/pypi/v/numpy.svg)](https://pypi.org/project/numpy/) [![PyPI Downloads](https://img.shields.io/pypi/dm/numpy.svg?label=PyPI%20downloads)](https://pypi.org/project/numpy/) [![Conda Latest Release](https://anaconda.org/conda-forge/numpy/badges/version.svg)](https://anaconda.org/conda-forge/numpy) [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/numpy.svg?label=Conda%20downloads)](https://anaconda.org/conda-forge/numpy) |
-| Requests | [![Requests Latest Release](https://img.shields.io/pypi/v/requests.svg)](https://pypi.org/project/requests/) [![PyPI Downloads](https://img.shields.io/pypi/dm/requests.svg?label=PyPI%20downloads)](https://pypi.org/project/requests/) [![Conda Latest Release](https://anaconda.org/conda-forge/requests/badges/version.svg)](https://anaconda.org/conda-forge/requests) [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/requests.svg?label=Conda%20downloads)](https://anaconda.org/conda-forge/requests) |
-| python-decouple | [![python-decouple Latest Release](https://img.shields.io/pypi/v/python-decouple.svg)](https://pypi.org/project/python-decouple/) [![PyPI Downloads](https://img.shields.io/pypi/dm/python-decouple.svg?label=PyPI%20downloads)](https://pypi.org/project/python-decouple/) [![Conda Latest Release](https://anaconda.org/conda-forge/python-decouple/badges/version.svg)](https://anaconda.org/conda-forge/python-decouple) [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/python-decouple.svg?label=Conda%20downloads)](https://anaconda.org/conda-forge/python-decouple) |
-
-##
+## Título: Python y los Esquemas ETL: El Pivote Esencial para la Inteligencia Artificial
 
 ¿Te has preguntado alguna vez qué hay detrás de la magia de la Inteligencia Artificial (IA)? ¿Cómo es que los modelos de Machine Learning, Deep Learning, y la IA generativa logran resultados tan sorprendentes? La respuesta radica en la calidad y la gestión de los datos que alimentan estos modelos. Y aquí es donde entra en juego el proceso ETL (Extracción, Transformación y Carga). En esta charla, "Python y los Esquemas ETL", desentrañaremos el papel crucial de ETL en el éxito de la IA y cómo Python se convierte en tu mejor aliado en esta misión.
 

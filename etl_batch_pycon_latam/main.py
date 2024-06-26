@@ -36,20 +36,21 @@ def main():
         print(banner)
         
         # From API
-        n_requests = int(N_REQUEST)
-        appid = f'{API_KEY}'
-        extractor_api = ExtractFromApi(n=n_requests, api_key=appid)
-        weather_data = extractor_api.extract_data()
-        lat = extractor_api.latitudes
-        lon = extractor_api.longitudes
+        # n_requests = int(N_REQUEST)
+        # appid = f'{API_KEY}'
+        # extractor_api = ExtractFromApi(n=n_requests, api_key=appid)
+        # weather_data = extractor_api.extract_data()
+        # lat = extractor_api.latitudes
+        # lon = extractor_api.longitudes
 
         # From CSV
         extractor_csv = ExtractFromCsv()
-        global_temperatures = extractor_csv.extract_data()
+        customers = extractor_csv.extract_data()
+        print(customers)
 
         # From Data Base
-        extractor_db = ExtractFromDB()
-        openweathermap = extractor_db.extract_data()
+        # extractor_db = ExtractFromDB()
+        # openweathermap = extractor_db.extract_data()
 
 
         banner = """
@@ -62,27 +63,27 @@ def main():
         print(banner)
 
         # To API
-        transformation_api = TransformToApi(lat, lon)
-        data_response = transformation_api.transform_data(weather_data)
-        print('API OpenWeather: 📦')
-        prettytable_data_response = dataframe_a_prettytable(data_response, 5)
-        print(prettytable_data_response)
+        # transformation_api = TransformToApi(lat, lon)
+        # data_response = transformation_api.transform_data(weather_data)
+        # print('API OpenWeather: 📦')
+        # prettytable_data_response = dataframe_a_prettytable(data_response, 5)
+        # print(prettytable_data_response)
 
         print('\n')
 
         # To CSV
         transformation_csv = TransformToCsv()
-        global_temperatures = transformation_csv.transform_data(global_temperatures)
-        print('Global Temperatures: 📦')
-        prettytable_global_temperatures = dataframe_a_prettytable(global_temperatures, 5)
-        print(prettytable_global_temperatures)
+        layout_customers = transformation_csv.transform_data(customers)
+        # print('Customers: 📦')
+        # prettytable_customers = dataframe_a_prettytable(customers, 5)
+        # print(prettytable_customers)
 
         # To Data Base
-        transformation_db = TransformToDb()
-        openweathermap = transformation_db.transform_data(openweathermap)
-        print('Openweathermap polygon: 📦')
-        prettytable_openweathermap = dataframe_a_prettytable(openweathermap, 5)
-        print(prettytable_openweathermap)
+        # transformation_db = TransformToDb()
+        # openweathermap = transformation_db.transform_data(openweathermap)
+        # print('Openweathermap polygon: 📦')
+        # prettytable_openweathermap = dataframe_a_prettytable(openweathermap, 5)
+        # print(prettytable_openweathermap)
 
         print('\n')
 
@@ -96,19 +97,19 @@ def main():
         print(banner)
 
         # Load api rest data
-        load_api = loadFromDatasetApi()
-        load_api.load_data(data_response)
-        print('successful load api data...✅')
+        # load_api = loadFromDatasetApi()
+        # load_api.load_data(data_response)
+        # print('successful load api data...✅')
 
         # Load CSV data
-        load_csv = loadFromDatasetCsv()
-        load_csv.load_data(global_temperatures)
-        print('successful load csv data...✅')
+        # load_csv = loadFromDatasetCsv()
+        # load_csv.load_data(global_temperatures)
+        # print('successful load csv data...✅')
 
         # Load DB data
-        load_db = loadFromDatasetDb()
-        load_db.load_data(openweathermap)
-        print('successful load db data...✅')
+        # load_db = loadFromDatasetDb()
+        # load_db.load_data(openweathermap)
+        # print('successful load db data...✅')
 
         print('\n')
         
