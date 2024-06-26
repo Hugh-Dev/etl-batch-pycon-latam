@@ -19,11 +19,11 @@ import pandas as pd
 # print(df_resultado)
 # conn.close()
 
-conn = sqlite3.connect('etl_batch_pycon_latam.db')
-query = "SELECT * FROM trusted_db;"
-df_resultado = pd.read_sql_query(query, conn)
-print(df_resultado)
-conn.close()
+# conn = sqlite3.connect('etl_batch_pycon_latam.db')
+# query = "SELECT * FROM trusted_db;"
+# df_resultado = pd.read_sql_query(query, conn)
+# print(df_resultado)
+# conn.close()
 
 # conn = sqlite3.connect('etl_batch_pycon_latam.db')
 # df.to_sql('usuarios', conn, if_exists='replace', index=False)

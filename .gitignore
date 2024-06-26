@@ -1,5 +1,6 @@
 # compiled output
 __pycache__/
+**__pycache__/**
 
 # Compiled Python bytecode
 *.py[cod]
